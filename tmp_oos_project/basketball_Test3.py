@@ -1,13 +1,13 @@
 import numpy as np
 import cv2 as cv
 import Ball
-import time, pymysql, os
+import time, os
 try:
     log = open('log.txt',"w")
 except:
     print( "Could not open log file.")
 #cap = cv.VideoCapture(0) # 웹캠일 경우
-cap = cv.VideoCapture('tmp_oos_project/Test/Basketball.mp4') # 144, 180, 108, 216
+cap = cv.VideoCapture('./Test/videofile.mp4') # 144, 180, 108, 216
 #cap = cv.VideoCapture('Test/hyunho1.mp4') # 252, 293
 cap.set(3,1280) # Width
 cap.set(4,720) # Height
@@ -25,7 +25,7 @@ up_limit = int(6*H/20) # 252-(265-252)
 down_limit = int(8*H/20) # 293+(293-252)
 
 line_down_color = (255,0,0) # 빨강
-line_up_color = (0,0,255) # 파랑
+line_up_color = (0,255,0) # 초록
 pts_L1, pts_L2, pts_L3, pts_L4 = None, None, None, None
 
 def calc_linepos(y, yh, x=620, xw=690) :
@@ -35,7 +35,7 @@ def calc_linepos(y, yh, x=620, xw=690) :
     print('area', (yh-y) * (xw-x), ', X1', X1, ', X2', X2, ' Y2', Y2)
     # Entry / exit lines
     print( "Red line y:", str(y))
-    print( "Blue line y:", str(yh))
+    print( "Green line y:", str(yh))
     line_down = yh; line_up = y
     pt1 = [0, line_down];
     pt2 = [W, line_down];
@@ -185,9 +185,9 @@ while(cap.isOpened()):
                     pid += 1
 
             if cx > X1 and cx < X2 and cy < Y2 :
-                # cv.circle(frame,(cx,cy), 5, (0,0,255), -1)
-                img = cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-                # cv.drawContours(frame, cnt, -1, (0,255,0), 3)
+                cv.circle(frame,(cx,cy), 5, (255,212,0), -1)
+                img = cv.rectangle(frame,(x,y),(x+w,y+h),(255,212,0),2)
+                cv.drawContours(frame, cnt, -1, (255,212,0), 3)
         
     # END for cnt in contours0
     # DRAWING TRAJECTORS 
