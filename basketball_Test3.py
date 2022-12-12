@@ -19,8 +19,8 @@ for i in range(19):
 
 H, W = 720, 1280
 X1, X2, Y1, Y2 = 600, 680, 0, 300
-line_up = int(7*H/21) # 252
-line_down = int(7*H/19) # 265
+line_up = int(8*H/21) # 252
+line_down = int(8*H/19) # 265
 up_limit = int(6*H/20) # 252-(265-252)
 down_limit = int(8*H/20) # 293+(293-252)
 
