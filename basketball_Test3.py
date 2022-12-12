@@ -107,7 +107,6 @@ def onMouse(event,x,y,flags,param):
         # 계산된 히스토그램 노말라이즈
         # cv.normalize(roi_hist,roi_hist,0,255,cv.NORM_MINMAX)
     return
-# dic={'02이태현':'Taehyun', '51윤현호':'hyeonho', '59이수정':'suejeong'}
 fourcc = cv.VideoWriter_fourcc(*'DIVX') # 코덱 정의
 out = cv.VideoWriter(user + '_out.avi', fourcc, 24, (int(1280),int(720))) # VideoWriter 객체 정의
 
