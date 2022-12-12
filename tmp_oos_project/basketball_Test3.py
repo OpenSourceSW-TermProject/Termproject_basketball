@@ -7,7 +7,7 @@ try:
 except:
     print( "Could not open log file.")
 #cap = cv.VideoCapture(0) # 웹캠일 경우
-cap = cv.VideoCapture('tmp_oos_project/Test/Basketball.mp4') # 144, 180, 108, 216
+cap = cv.VideoCapture('tmp_oos_project/Test/Basketball5.mp4') # 144, 180, 108, 216
 #cap = cv.VideoCapture('Test/hyunho1.mp4') # 252, 293
 cap.set(3,1280) # Width
 cap.set(4,720) # Height
@@ -19,10 +19,14 @@ for i in range(19):
 
 H, W = 720, 1280
 X1, X2, Y1, Y2 = 600, 680, 0, 300
-line_up = int(7*H/21) # 252
-line_down = int(7*H/19) # 265
+line_up = int(8*H/23) # 252 270
+print(line_up)
+line_down = int(8*H/18) # 265 307a
+print(line_down)
 up_limit = int(6*H/20) # 252-(265-252)
-down_limit = int(8*H/20) # 293+(293-252)
+print(up_limit)
+down_limit = int(8*H/19) # 293+(293-252)
+print(down_limit)
 
 line_down_color = (255,0,0) # 빨강
 line_up_color = (0,0,255) # 파랑
@@ -62,7 +66,7 @@ fgbg = cv.createBackgroundSubtractorMOG2(detectShadows = True)
 # Structuring elements for morphogic filters
 kernelOp = np.ones((5,5),np.uint8) ### (3,3)
 kernelOp2 = np.ones((5,5),np.uint8)
-kernelCl = np.ones((11,11),np.uint8) ### (18,18)
+kernelCl = np.ones((13,13),np.uint8) ### (18,18)
 # Variables
 col, width, row, height = -1,-1,-1,-1
 frame, frame2 = None, None
@@ -105,7 +109,7 @@ def onMouse(event,x,y,flags,param):
         # HSV 색공간으로 변경한 히스토그램 계산
         # roi_hist = cv.calcHist([roi],[0],None,[180],[0,180])
         # 계산된 히스토그램 노말라이즈
-        # cv.normalize(roi_hist,roi_hist,0,255,cv.NORM_MINMAX)
+        cv.normalize(roi_hist,roi_hist,0,255,cv.NORM_MINMAX)
     return
 # dic={'02이태현':'Taehyun', '51윤현호':'hyeonho', '59이수정':'suejeong'}
 fourcc = cv.VideoWriter_fourcc(*'DIVX') # 코덱 정의
@@ -179,29 +183,29 @@ while(cap.isOpened()):
                         index = balls.index(i)
                         balls.pop(index)
                         del i # 메모리 해제
-                if new == True and (cx > 550 and cx < 750 and cy < 334) :
+                if new == True and (cx > 550 and cx < 750 and cy < 320) :
                     p = Ball.MyBall(pid,cx,cy,max_b_age)
                     balls.append(p)
                     pid += 1
 
             if cx > X1 and cx < X2 and cy < Y2 :
-                # cv.circle(frame,(cx,cy), 5, (0,0,255), -1)
+                cv.circle(frame,(cx,cy), 5, (0,0,255), -1)
                 img = cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
-                # cv.drawContours(frame, cnt, -1, (0,255,0), 3)
+                cv.drawContours(frame, cnt, -1, (0,255,0), 3)
         
     # END for cnt in contours0
     # DRAWING TRAJECTORS 
     
     for i in balls:
         ''' if
-        if
-        궤적 추가 코드/ 주석처리 len(i.getTracks()) >= 2:
-        pts = np.array(i.getTracks(), np.int32)
-        pts = pts.reshape((-1,1,2))
-        frame = cv.polylines(frame,[pts],False,i.getRGB())
-        i.getId() == 9:
-        print(str(i.getX()), ',', str(i.getY()))
-        '''
+        # if
+        # 궤적 추가 코드/ 주석처리 len(i.getTracks()) >= 2:
+        # pts = np.array(i.getTracks(), np.int32)
+        # pts = pts.reshape((-1,1,2))
+        # frame = cv.polylines(frame,[pts],False,i.getRGB())
+        # i.getId() == 9:
+        # print(str(i.getX()), ',', str(i.getY()))
+        # '''
         cv.putText(frame, str(i.getId()),(i.getX(),i.getY()),font,0.3, i.getRGB(),1,cv.LINE_AA)
 
     # IMAGANES
@@ -211,6 +215,7 @@ while(cap.isOpened()):
     frame = cv.polylines(frame,[pts_L2],False,line_up_color,thickness=2) 
     frame = cv.polylines(frame,[pts_L3],False,(255,255,255),thickness=1) 
     frame = cv.polylines(frame,[pts_L4],False,(255,255,255),thickness=1)
+
 
     cv.putText(frame, str_down ,(480,40),font,1,(255,255,255),6,cv.LINE_AA) 
     cv.putText(frame, str_down ,(480,40),font,1,(255,0,0),2,cv.LINE_AA)
